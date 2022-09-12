@@ -1,0 +1,68 @@
+<div class="d-flex">
+    <div class="aside__section col-3 px-3">
+        <div class="form-search">
+            <input placeholder="სახელით ძიება" class="form__input" type="text" (keyup)="searchaction($event)"
+                name="search" id="search">
+        </div>
+        <div class="mt-4 pt-2 pb-3">
+            <span class="bold d-block">ფასი</span>
+            <div class="d-flex w-100 justify-content-between mt-3">
+                <input class="form__input sm c__icon" type="text" #minvalue [ngModel]="minValue | number:'':'en'"
+                    (ngModelChange)="sliderEvent(minvalue.value , maxvalue.value)">
+                <div class="mx-2"></div>
+                <input class="form__input sm c__icon" type="text" #maxvalue [ngModel]="maxValue | number:'':'en'"
+                    (ngModelChange)="sliderEvent( minvalue.value ,maxvalue.value)">
+            </div>
+
+        </div>
+        <ngx-slider [(value)]="minValue" [(highValue)]="maxValue" [options]="options"
+            (mouseup)="sliderEvent(minvalue.value , maxvalue.value)"></ngx-slider>
+        <div class="mt-4 pt-2 pb-3">
+            <span class="bold d-block">სიმბოლოების რაოდონობა</span>
+            <div class="d-flex w-100 justify-content-between mt-3">
+                <input class="form__input sm" type="text" #priceminvalue [ngModel]="priceMinValue "
+                    (ngModelChange)="priceSliderEvent(priceminvalue.value , pricemaxvalue.value)">
+                <div class="mx-2"></div>
+                <input class="form__input sm" type="text" #pricemaxvalue [ngModel]="priceMaxValue "
+                    (ngModelChange)="priceSliderEvent(priceminvalue.value , pricemaxvalue.value)">
+
+            </div>
+        </div>
+        <ngx-slider [(value)]="priceMinValue" [(highValue)]="priceMaxValue" [options]="priceOptions"
+            (mouseup)="priceSliderEvent(priceminvalue.value , pricemaxvalue.value)">
+        </ngx-slider>
+        <span class="bold d-block pt-4">categories</span>
+        <div class="d-flex my-4" *ngFor="let item of categories">
+            <label class="check__group position-relative d-flex align-items-center" for="{{item.id}}">
+                <input id="{{item.id}}" type="checkbox" [value]="item.id" (change)="categoryFilter(item , $event)">
+                <span class="checkmark"></span>
+                <span>
+                    {{item.name}}
+                </span>
+            </label>
+        </div>
+        <span class="bold d-block">zones</span>
+        <div class="d-flex my-4" *ngFor="let item of domainZone ; let i = index">
+            <label class="check__group position-relative d-flex align-items-center" for="item-{{i}}">
+                <input id="item-{{i}}" type="checkbox" [value]="item.id" (change)="zoneFilter(item , $event)">
+                <span class="checkmark"></span>
+                <span>
+                    {{item}}
+                </span>
+            </label>
+        </div>
+    </div>
+    <div class="content col-7 px-4 px-3" *ngIf="mainData.length else empty">
+
+        <div *ngFor="let item of   mainData" (click)="addToCart(item)">
+            <div class="border-bottom mb-2 pb-2">
+                name: {{item.domainName}}
+                price: {{item.price | number:'':'en'}}
+            </div>
+        </div>
+    </div>
+    <ng-template #empty>
+        <span class="text-danger">list is empty</span>
+    </ng-template>
+
+</div>

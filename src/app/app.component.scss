@@ -1,0 +1,51 @@
+@import "./../assets/styles/variables.scss";
+::ng-deep.ngx-slider {
+    .ngx-slider-span.ngx-slider-bar.ngx-slider-selection {
+        background-color: $green !important;
+    }
+    .ngx-slider-span.ngx-slider-bar {
+        background-color: $gray;
+        height: 2px !important;
+    }
+    .ngx-slider-pointer {
+        cursor: pointer;
+        margin-top: 3px;
+        width: 25px !important;
+        height: 25px !important;
+        background-color: $white !important;
+        border: 2px solid $green;
+        border-radius: 50%;
+        &::after {
+            top: 50% !important;
+            transform: translateY(-50%);
+            width: 1px !important;
+            height: 12px !important;
+            background-color: $green !important;
+        }
+        &::before {
+            content: "";
+            position: absolute;
+            top: 50% !important;
+            transform: translateY(-50%);
+            width: 1px !important;
+            height: 12px !important;
+            right: 12px;
+            border-radius: 4px;
+            background-color: $green;
+        }
+    }
+}
+.banner__content {
+    background-image: url(../assets/images/base/banner.png);
+    min-height: 180px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    color: $white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .title {
+        font-size: 36px;
+    }
+}
