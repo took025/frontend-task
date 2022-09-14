@@ -40,12 +40,19 @@
     min-height: 180px;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
     color: $white;
     display: flex;
     align-items: center;
     justify-content: center;
     .title {
         font-size: 36px;
+    }
+    @include mobile-md {
+        min-height: 120px;
+        .title {
+            font-size: 20px;
+            max-width: 50%;
+        }
     }
 }

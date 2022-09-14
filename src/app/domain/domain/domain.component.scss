@@ -1,6 +1,114 @@
 @import "src/assets/styles/variables.scss";
 .aside__section {
+    background-color: $white;
     border: 1px solid $border;
     padding: 35px 30px;
     border-radius: 10px;
+    overflow: auto;
+    @include mobile-md {
+        padding: 0 20px;
+        max-height: 100vh;
+        width: 100%;
+        max-width: 0;
+        background-color: $white;
+        position: fixed;
+        top: 0;
+        left: 0px;
+        transition: 0.4s;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 11;
+        &.active {
+            pointer-events: initial;
+            opacity: 1;
+            max-width: 1000px;
+        }
+    }
+    .menu__head {
+        height: 60px;
+        box-shadow: 0px 2px 5px hsla(0, 0%, 0%, 0.06);
+        margin: 0 -20px 30px -20px;
+        padding: 0 20px;
+    }
+    .button__side {
+        height: 85px;
+        box-shadow: 0px -3px 6px hsla(0, 0%, 0%, 0.08);
+        margin: 40px -20px 0 -20px;
+        padding: 0 20px;
+    }
+}
+.domain__content {
+    border: 1px solid $border;
+    padding: 10px 20px;
+    border-radius: 12px;
+    background-color: $white;
+    @include mobile-md {
+        padding: 10px 0;
+        border: none;
+        .domain__list {
+            padding: 0 20px;
+        }
+    }
+}
+.domain__list {
+    padding: 0 20px;
+    transition: 0.2s;
+    &:hover {
+        background-color: $bg-light;
+        border-radius: 10px;
+        transition: 0.2s;
+        .child {
+            transition: inherit;
+            border-color: transparent !important;
+        }
+    }
+    .child {
+        padding: 20px 0;
+        &.in-cart {
+            .cart__block {
+                background-color: $orange;
+            }
+        }
+    }
+    .cart__block {
+        transition: 0.2s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 36px;
+        height: 36px;
+        background-color: $green;
+        border-radius: 12px;
+        cursor: pointer;
+        padding: 0 8px;
+        overflow: hidden;
+        .cart__text {
+            transition: none;
+            color: $white;
+            max-width: 0px;
+            opacity: 0;
+        }
+        &:hover {
+            padding: 0 15px;
+            .cart__text {
+                transition: 0.2s;
+                opacity: 1;
+                max-width: 1000px;
+            }
+        }
+    }
+}
+.status {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    min-height: 100%;
+    min-width: 100%;
+    background-color: $bg-light;
+    z-index: 11;
+    border-radius: 10px;
+    padding: 9px 18px;
+    border: 1px solid $white;
+    pointer-events: none;
 }

@@ -1,8 +1,16 @@
 <header class="header d-flex align-items-center">
+
     <nav class="d-flex justify-content-between container">
-        <a class="d-flex" routerLink="/">
-            <img class="w-100" src="../../assets/images/base/logo.svg" alt="">
-        </a>
+        <div class="d-flex align-items-center">
+            <div class="burger" (click)="burgerACtion()">
+                <span class="burger__rows burger-row1"></span>
+                <span class="burger__rows burger-row2"></span>
+                <span class="burger__rows burger-row3"></span>
+            </div>
+            <a class="d-flex mt-2 mt-md-0" routerLink="/">
+                <img class="logo__icon w-100" src="../../assets/images/base/logo.svg" alt="">
+            </a>
+        </div>
         <div class="cart__block">
             <img src="../../assets/images/icons/gray-cart.svg" alt="">
             <span class="cart__count">{{count}}</span>

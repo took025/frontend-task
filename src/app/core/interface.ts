@@ -7,5 +7,6 @@ export interface Domains {
     domainName: string,
     domainExtension: string,
     price: number,
+    cart: boolean,
     categories: [],
 }

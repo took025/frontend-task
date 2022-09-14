@@ -7,11 +7,17 @@ import { MainService } from '../core/main.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  burugerMenu: boolean;
   count: number;
   constructor(private service: MainService) { }
 
   ngOnInit(): void {
-      this.service.cartNumber$.subscribe({ next: (value) => this.count = value });
+    this.service.cartNumber$.subscribe({ next: (value) => this.count = value });
+  }
+
+  burgerACtion() {
+    this.burugerMenu = !this.burugerMenu;
+    this.service.burugeMenu$.next(this.burugerMenu);
   }
 
 }

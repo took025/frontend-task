@@ -1,7 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
-@import './assets/styles/base.scss';
+@import "./assets/styles/base.scss";
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab&family=Roboto:wght@400;500;700&display=swap");
 * {
     font-family: "Roboto", sans-serif;
     font-size: 16px;
+}
+.border-bottom {
+    border-color: #f1f1f5 !important;
+}
+body {
+    background: #fafafb;
+    @extend .scrollbar;
 }

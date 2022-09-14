@@ -1,11 +1,22 @@
+<div class="container pb-3">
+    <span class="text-gray">
+        დომენები მარკეტზე: <strong>{{mainData.length}}</strong>
+    </span>
+</div>
 <div class="d-flex">
-    <div class="aside__section col-3 px-3">
+    <div class="aside__section col-lg-3 scrollbar" [ngClass]="{'active': burugerMenu}">
+        <div class="menu__head d-flex d-lg-none justify-content-between align-items-center">
+            <span>ფილტრი</span>
+            <a (click)="burgerACtion()">
+                <img src="../../../assets/images/icons/x-icon.svg" alt="">
+            </a>
+        </div>
         <div class="form-search">
             <input placeholder="სახელით ძიება" class="form__input" type="text" (keyup)="searchaction($event)"
                 name="search" id="search">
         </div>
         <div class="mt-4 pt-2 pb-3">
-            <span class="bold d-block">ფასი</span>
+            <span class="bold d-block">სიმბოლოების რაოდონობა</span>
             <div class="d-flex w-100 justify-content-between mt-3">
                 <input class="form__input sm c__icon" type="text" #minvalue [ngModel]="minValue | number:'':'en'"
                     (ngModelChange)="sliderEvent(minvalue.value , maxvalue.value)">
@@ -13,12 +24,11 @@
                 <input class="form__input sm c__icon" type="text" #maxvalue [ngModel]="maxValue | number:'':'en'"
                     (ngModelChange)="sliderEvent( minvalue.value ,maxvalue.value)">
             </div>
-
         </div>
         <ngx-slider [(value)]="minValue" [(highValue)]="maxValue" [options]="options"
             (mouseup)="sliderEvent(minvalue.value , maxvalue.value)"></ngx-slider>
         <div class="mt-4 pt-2 pb-3">
-            <span class="bold d-block">სიმბოლოების რაოდონობა</span>
+            <span class="bold d-block">ფასი</span>
             <div class="d-flex w-100 justify-content-between mt-3">
                 <input class="form__input sm" type="text" #priceminvalue [ngModel]="priceMinValue "
                     (ngModelChange)="priceSliderEvent(priceminvalue.value , pricemaxvalue.value)">
@@ -31,7 +41,7 @@
         <ngx-slider [(value)]="priceMinValue" [(highValue)]="priceMaxValue" [options]="priceOptions"
             (mouseup)="priceSliderEvent(priceminvalue.value , pricemaxvalue.value)">
         </ngx-slider>
-        <span class="bold d-block pt-4">categories</span>
+        <span class="bold d-block pt-4">კატეგორიები</span>
         <div class="d-flex my-4" *ngFor="let item of categories">
             <label class="check__group position-relative d-flex align-items-center" for="{{item.id}}">
                 <input id="{{item.id}}" type="checkbox" [value]="item.id" (change)="categoryFilter(item , $event)">
@@ -41,28 +51,57 @@
                 </span>
             </label>
         </div>
-        <span class="bold d-block">zones</span>
+        <span class="bold d-block">დომენის ზონა</span>
         <div class="d-flex my-4" *ngFor="let item of domainZone ; let i = index">
             <label class="check__group position-relative d-flex align-items-center" for="item-{{i}}">
-                <input id="item-{{i}}" type="checkbox" [value]="item.id" (change)="zoneFilter(item , $event)">
+                <input id="item-{{i}}" type="checkbox" [value]="item" (change)="zoneFilter(item , $event)">
                 <span class="checkmark"></span>
                 <span>
                     {{item}}
                 </span>
             </label>
         </div>
+        <div class="button__side d-flex d-lg-none align-items-center">
+            <button (click)="burgerACtion()" class="button">ᲫᲘᲔᲑᲐ</button>
+        </div>
     </div>
-    <div class="content col-7 px-4 px-3" *ngIf="mainData.length else empty">
-
-        <div *ngFor="let item of   mainData" (click)="addToCart(item)">
-            <div class="border-bottom mb-2 pb-2">
-                name: {{item.domainName}}
-                price: {{item.price | number:'':'en'}}
+    <div class="col-12 col-lg-9 px-0 ps-md-4" *ngIf="mainData.length else empty">
+        <div class="domain__content">
+            <div class="domain__list" id="{{item.id}}" *ngFor="let item of mainData; let last = last">
+                <div class="child d-flex justify-content-between align-items-center"
+                    [ngClass]="{ 'border-bottom' : !last , 'in-cart' : item.cart}">
+                    <span class="pe-2 bold">
+                        {{item.domainName}}{{item.domainExtension}}
+                    </span>
+                    <div class="righ__side d-flex align-items-center position-relative">
+                        <span class="price__text d-flex mx-3 nowrap bold">
+                            {{item.price | number:'':'en'}} ₾
+                            <!-- *ngIf="addAnim == item.id" -->
+                        </span>
+                        <div [ngClass]="{'opacity-100': addAnim == item.id}"
+                            class="status opacity-0 d-flex align-items-center justify-content-center transition">
+                            <img class="me-1" src="../../../assets/images/icons/done.svg" alt="">
+                            <span class="c-gray">კალთაშია</span>
+                        </div>
+                        <div class="cart__block" (click)="addToCart(item)">
+                            <span class="cart__text">{{item.cart ? 'წაშლა' : 'დამატება'}}</span>
+                            <img class="cart__icon" src="../../../assets/images/icons/cart.svg" alt="">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <ng-template #empty>
-        <span class="text-danger">list is empty</span>
+        <div class="px-4 d-flex flex-column align-items-center pt-4">
+            <div>
+                <img src="../../../assets/images/base/not-found.svg" alt="">
+            </div>
+            <span class="bold f-18 mt-4 pt-2">დომენი ვერ მოიძებნა</span>
+            <span class="f-14 mt-3 text-center col-8">მითითებული პარამეტრებით დომენების მარკეტში შედეგები ვერ მოიძებნა,
+                შეცვალეთ ძიების
+                პარამეტრები და ცადეთ თავიდან</span>
+        </div>
     </ng-template>
 
 </div>
