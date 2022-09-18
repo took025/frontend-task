@@ -1,5 +1,6 @@
 import { Options } from '@angular-slider/ngx-slider';
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Categories, Domains } from 'src/app/core/interface';
 import { MainService } from 'src/app/core/main.service';
 
@@ -9,6 +10,7 @@ import { MainService } from 'src/app/core/main.service';
   styleUrls: ['./domain.component.scss']
 })
 export class DomainComponent implements OnInit {
+  subscription: Subscription = new Subscription();
   filterData: Domains[] = [];
   mainData: Domains[] = [];
   categories: Categories[] = [];
@@ -34,19 +36,25 @@ export class DomainComponent implements OnInit {
   constructor(private service: MainService) { }
 
   ngOnInit(): void {
-    this.service.burugeMenu$.subscribe({
-      next: (value) => this.burugerMenu = value
-    });
+    this.subscription.add(
+      this.service.burugeMenu$.subscribe({
+        next: (value) => this.burugerMenu = value
+      }),
+    );
 
-    this.service.getDomainList().subscribe((res: Domains[]) => {
-      this.mainData = res;
-      this.filterData = res;
-      this.getCartList();
-    });
+    this.subscription.add(
+      this.service.getDomainList().subscribe((res: Domains[]) => {
+        this.mainData = res;
+        this.filterData = res;
+        this.getCartList();
+      }),
+    );
 
-    this.service.getCategories().subscribe((res: Categories[]) => {
-      this.categories = res;
-    });
+    this.subscription.add(
+      this.service.getCategories().subscribe((res: Categories[]) => {
+        this.categories = res;
+      }),
+    );
   }
 
   getCartList() {
@@ -114,16 +122,16 @@ export class DomainComponent implements OnInit {
     console.log(this.addAnim);
 
     item.cart = !item.cart;
-    this.service.addToCart(item.id, item).subscribe((res: Domains) => {
-      this.getCartList();
-      setTimeout(() => {
-        this.addAnim = null;
-        console.log(this.addAnim);
-      }, 1000);
-    });
+    this.subscription.add(
+      this.service.addToCart(item.id, item).subscribe((res: Domains) => {
+        this.getCartList();
+        setTimeout(() => {
+          this.addAnim = null;
+          console.log(this.addAnim);
+        }, 1000);
+      }),
+    );
   }
-
-
 
   searchaction(event) {
     const data = event.target.value;
@@ -137,4 +145,8 @@ export class DomainComponent implements OnInit {
   //     this.mainData = res;
   //   })
   // }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 }
