@@ -117,9 +117,7 @@ export class DomainComponent implements OnInit {
   addToCart(item: Domains) {
     if (!item.cart) {
       this.addAnim = item.id;
-    }
-
-    console.log(this.addAnim);
+    };
 
     item.cart = !item.cart;
     this.subscription.add(
@@ -127,7 +125,6 @@ export class DomainComponent implements OnInit {
         this.getCartList();
         setTimeout(() => {
           this.addAnim = null;
-          console.log(this.addAnim);
         }, 1000);
       }),
     );
@@ -137,7 +134,8 @@ export class DomainComponent implements OnInit {
     const data = event.target.value;
     this.mainData = this.filterData.filter((items: Domains) => items.domainName.includes(data));
   }
-  // search with endpoint
+  
+  // search with service
 
   // searchaction(event) {
   //   const data = event.target.value;
